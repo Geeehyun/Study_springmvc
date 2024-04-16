@@ -16,7 +16,9 @@ public class SampleTests {
     private SampleService sampleService;
     @Test
     public void testService() {
-        log.info("-----------------sampleService Test : " + sampleService);
+        log.info("-------------------------------------------------------");
+        log.info("-----------------sampleService Test : " + sampleService + "-------------");
+        log.info("-------------------------------------------------------");
         Assertions.assertNotNull(sampleService);
     }
 }
