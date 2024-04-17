@@ -39,4 +39,6 @@
        <!-- 위 Bean 설정에서  mapperLocations으로 Mppper.xml 설정 함. -->
        <mybatis:scan base-package="org.fullstack4.springmvc.mapper"/>
        <!-- MyBatis Bean 설정 -->
+
+       <context:component-scan base-package="org.fullstack4.springmvc.config" />
 </beans>
