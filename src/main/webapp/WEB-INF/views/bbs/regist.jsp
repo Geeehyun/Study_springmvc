@@ -13,5 +13,23 @@
 </head>
 <body>
     <h1>bbs >> regist</h1>
+    <form action="/bbs/regist" method="post" id="frm">
+        <div>
+            <span>아이디 : <input type="text" name="user_id" id="user_id" maxlength="20"></span>
+        </div>
+        <div>
+            <span>제목 : <input type="text" name="title" id="title" maxlength="100"></span>
+        </div>
+        <div>
+            <span>내용 :<textarea name="content" id="content" rows="10" cols="60"></textarea></span>
+        </div>
+        <div>
+            <span>출력날짜 : <input type="date" name="display_date" id="display_date"></span>
+        </div>
+        <div>
+            <button type="submit">제출</button>
+            <button type="reset">지우기</button>
+        </div>
+    </form>
 </body>
 </html>

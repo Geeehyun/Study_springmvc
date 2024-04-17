@@ -23,4 +23,16 @@
 
     <!-- Servelt Controller관련 경로 설정 -->
     <context:component-scan base-package="org.fullstack4.springmvc.controller" />
+
+    <!-- formatter 추가하는 부분 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatters">
+            <set>
+                <bean class="org.fullstack4.springmvc.controller.Formatter.LocalDateFormatter" />
+            </set>
+        </property>
+    </bean>
+    <!-- 만든 formatter가 더 있다면 <set>안에 쭉 넣어주면 됨 -->
+    <mvc:annotation-driven conversion-service="conversionService" />
+    <!-- 위에 열심히 만든거 어노테이션으로 사용하겠다는 의미 -->
 </beans>
