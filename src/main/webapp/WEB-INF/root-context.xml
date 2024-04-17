@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context = "http://www.springframework.org/schema/context"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd">
+                           http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 <!--       1. `root-context.xml` 처럼 xml을 이용해서 의존성 주입하는 방법 -->
 <!--       <bean class="org.fullstack4.springmvc.sample.SampleDAO" />-->
 <!--       <bean class="org.fullstack4.springmvc.sample.SampleService" />-->
 
 <!--       2. `<context:component-scan>`을 이용하는 방법 -->
        <context:component-scan base-package="org.fullstack4.springmvc.sample" />
+       <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+              <property name="driverClassName" value="org.mariadb.jdbc.Driver"/>
+              <property name="jdbcUrl" value="jdbc:mariadb://localhost:3306/webdb"/>
+              <property name="username" value="user"/>
+              <property name="password" value="1234"/>
+              <property name="dataSourceProperties">
+                     <props>
+                            <prop key="cachePrepStmts">true</prop>
+                            <prop key="prepStmtCacheSize">250</prop>
+                            <prop key="prepStmtCacheSqlLimit">2048</prop>
+                     </props>
+              </property>
+       </bean>
+       <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+              <constructor-arg ref="hikariConfig" />
+       </bean>
+       <!--위 내용은 즉 HikariConfig hikariConfig = new HikariConfig() 와 동일한 내용-->
+
+       <!-- MyBatis Bean 설정 -->
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+              <property name="dataSource" ref="dataSource" />
+              <property name="mapperLocations" value="classpath:/mappers/**/*.xml" />
+       </bean>
+       <!-- 위 Bean 설정에서  mapperLocations으로 Mppper.xml 설정 함. -->
+       <mybatis:scan base-package="org.fullstack4.springmvc.mapper"/>
+       <!-- MyBatis Bean 설정 -->
 </beans>
