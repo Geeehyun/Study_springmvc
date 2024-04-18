@@ -14,4 +14,12 @@
     <select id="view" resultType="org.fullstack4.springmvc.domain.BbsVO">
         SELECT * FROM tbl_bbs WHERE idx=#{idx}
     </select>
+
+    <insert id="modify">
+        UPDATE tbl_bbs SET title = #{title},
+                           content = #{content},
+                           display_date = #{display_date},
+                           modify_date = now()
+        WHERE idx = #{idx}
+    </insert>
 </mapper>

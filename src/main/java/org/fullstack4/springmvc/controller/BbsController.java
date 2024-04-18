@@ -36,6 +36,7 @@ public class BbsController {
         log.info("---------------------");
         log.info("BbsController => view()");
         BbsDTO bbsDTO = bbsServiceIf.view(idx);
+        bbsDTO.setContent(bbsDTO.getContent().replace("\r\n", "<br>"));
         log.info("bbsDTO : " + bbsDTO);
         log.info("---------------------");
         model.addAttribute("bbsDTO", bbsDTO);
@@ -63,16 +64,28 @@ public class BbsController {
 
     }
     @GetMapping("/modify")
-    public void modifyGet() {
+    public void modifyGet(@RequestParam(name="idx", defaultValue = "0") int idx,
+                          Model model) {
         log.info("---------------------");
         log.info("BbsController => modifyGet()");
         log.info("---------------------");
+        BbsDTO bbsDTO = bbsServiceIf.view(idx);
+        log.info("bbsDTO : " + bbsDTO);
+        log.info("---------------------");
+        model.addAttribute("bbsDTO", bbsDTO);
     }
     @PostMapping("/modify")
-    public void modifyPost() {
+    public String modifyPost(BbsDTO dto,
+                           Model model) {
         log.info("---------------------");
         log.info("BbsController => modifyPost()");
         log.info("---------------------");
+        int result = bbsServiceIf.modify(dto);
+        if(result > 0 ){
+            return "redirect:/bbs/view?idx="+dto.getIdx();
+        } else {
+            return "redirect:/bbs/modify?idx="+dto.getIdx();
+        }
     }
     @PostMapping("/delete")
     public void deletePost() {

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>View</title>
@@ -23,15 +24,16 @@
     <span>제목 : ${bbsDTO.title}</span>
 </div>
 <div>
-    <span>내용 : ${bbsDTO.content}</span>
+    <span>내용 :</span>
+    <p>${bbsDTO.content}</p>
 </div>
 <div>
     <span>출력날짜 : ${bbsDTO.display_date}</span>
 </div>
 <div>
     <button type="button" onclick="location.href='/bbs/list'">목록</button>
-    <button type="button" onclick="location.href='/bbs/modify?idx=${idx}'">수정</button>
-    <button type="button" onclick="location.href='/bbs/delete?idx=${idx}'">삭제</button>
+    <button type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
+    <button type="button" onclick="location.href='/bbs/delete?idx=${bbsDTO.idx}'">삭제</button>
 </div>
 </body>
 </html>

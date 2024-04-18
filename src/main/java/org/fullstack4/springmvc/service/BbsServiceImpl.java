@@ -44,4 +44,11 @@ public class BbsServiceImpl implements BbsServiceIf {
         BbsDTO bbsDTO = modelMapper.map(bbsMapper.view(idx), BbsDTO.class);
         return bbsDTO;
     }
+
+    @Override
+    public int modify(BbsDTO bbsDTO) {
+        int result = 0;
+        result = bbsMapper.modify(modelMapper.map(bbsDTO, BbsVO.class));
+        return result;
+    }
 }

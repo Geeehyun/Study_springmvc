@@ -11,4 +11,6 @@ public interface BbsMapper {
     List<BbsVO> listAll();
 
     BbsVO view(int idx);
+
+    int modify(BbsVO bbsVO);
 }
