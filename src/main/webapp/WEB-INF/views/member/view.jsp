@@ -12,7 +12,7 @@
     <title>View</title>
 </head>
 <body>
-    <h1>bbs >> view</h1>
+<h1>bbs >> view</h1>
 <div>
     <span>인덱스 : ${idx}</span>
 </div>

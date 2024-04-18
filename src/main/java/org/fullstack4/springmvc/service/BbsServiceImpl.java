@@ -8,6 +8,9 @@ import org.fullstack4.springmvc.mapper.BbsMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -27,5 +30,18 @@ public class BbsServiceImpl implements BbsServiceIf {
         log.info("BbsServiceImpl >> result : " + result);
         log.info("-------------------");
         return result;
+    }
+
+    @Override
+    public List<BbsDTO> listAll() {
+        List<BbsDTO> bbsDTOListlist = bbsMapper.listAll().stream().map(vo -> modelMapper.map(vo, BbsDTO.class)).collect(Collectors.toList());
+        log.info("bbsDTOList : " + bbsDTOListlist);
+        return bbsDTOListlist;
+    }
+
+    @Override
+    public BbsDTO view(int idx) {
+        BbsDTO bbsDTO = modelMapper.map(bbsMapper.view(idx), BbsDTO.class);
+        return bbsDTO;
     }
 }

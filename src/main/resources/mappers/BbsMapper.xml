@@ -6,4 +6,12 @@
         INSERT INTO tbl_bbs (user_id, title, content, display_date, readCnt, reg_date)
         VALUES ( #{user_id}, #{title}, #{content}, #{display_date}, #{readCnt}, now())
     </insert>
+
+    <select id="listAll" resultType="org.fullstack4.springmvc.domain.BbsVO">
+        SELECT * FROM tbl_bbs ORDER BY reg_date DESC
+    </select>
+
+    <select id="view" resultType="org.fullstack4.springmvc.domain.BbsVO">
+        SELECT * FROM tbl_bbs WHERE idx=#{idx}
+    </select>
 </mapper>

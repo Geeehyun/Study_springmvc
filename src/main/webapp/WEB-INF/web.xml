@@ -14,6 +14,20 @@
     </listener>
     <!--spring에게 처리를 위임하겠다라는 의미-->
 
+    <!-- 한글 인코딩 설정 -->
+    <filter>
+        <filter-name>encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
+        <servlet-name>appServlet</servlet-name>
+    </filter-mapping>
+
     <!-- web.xml에 설정되는 Servlet관련 설정을 spring을 이용해서 설정하게끔 하는 내용 -->
     <servlet>
         <servlet-name>appServlet</servlet-name>

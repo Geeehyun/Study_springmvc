@@ -14,19 +14,19 @@
 <body>
     <h1>bbs >> view</h1>
 <div>
-    <span>인덱스 : ${idx}</span>
+    <span>인덱스 : ${bbsDTO.idx}</span>
 </div>
 <div>
-    <span>아이디 : ${user_id}</span>
+    <span>아이디 : ${bbsDTO.user_id}</span>
 </div>
 <div>
-    <span>제목 : ${title}</span>
+    <span>제목 : ${bbsDTO.title}</span>
 </div>
 <div>
-    <span>내용 : ${content}</span>
+    <span>내용 : ${bbsDTO.content}</span>
 </div>
 <div>
-    <span>출력날짜 : ${display_date}</span>
+    <span>출력날짜 : ${bbsDTO.display_date}</span>
 </div>
 <div>
     <button type="button" onclick="location.href='/bbs/list'">목록</button>
