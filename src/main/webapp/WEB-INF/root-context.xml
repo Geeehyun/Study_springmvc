@@ -41,4 +41,5 @@
        <!-- MyBatis Bean 설정 -->
 
        <context:component-scan base-package="org.fullstack4.springmvc.config" />
+       <context:component-scan base-package="org.fullstack4.springmvc.service" />
 </beans>
