@@ -31,6 +31,9 @@
     <span>출력날짜 : ${bbsDTO.display_date}</span>
 </div>
 <div>
+    <span>관심사항 : ${bbsDTO.interest}</span>
+</div>
+<div>
     <button type="button" onclick="location.href='/bbs/list'">목록</button>
     <button type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
     <button type="button" onclick="goDelete(${bbsDTO.idx})">삭제</button>

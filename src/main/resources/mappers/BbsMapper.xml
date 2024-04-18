@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fullstack4.springmvc.mapper.BbsMapper">
     <insert id="regist">
-        INSERT INTO tbl_bbs (user_id, title, content, display_date, readCnt, reg_date)
-        VALUES ( #{user_id}, #{title}, #{content}, #{display_date}, #{readCnt}, now())
+        INSERT INTO tbl_bbs (user_id, title, content, display_date, readCnt, reg_date, interest)
+        VALUES ( #{user_id}, #{title}, #{content}, #{display_date}, #{readCnt}, now(), #{interest})
     </insert>
 
     <select id="listAll" resultType="org.fullstack4.springmvc.domain.BbsVO">
@@ -19,6 +19,7 @@
         UPDATE tbl_bbs SET title = #{title},
                            content = #{content},
                            display_date = #{display_date},
+                           interest = #{interest},
                            modify_date = now()
         WHERE idx = #{idx}
     </update>
