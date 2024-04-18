@@ -11,5 +11,6 @@ public interface BbsServiceIf {
     List<BbsDTO> listAll();
     BbsDTO view(int idx);
     int modify(BbsDTO bbsDTO);
+    int delete(int idx);
 }
 

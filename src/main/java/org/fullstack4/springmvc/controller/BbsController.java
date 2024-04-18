@@ -88,9 +88,15 @@ public class BbsController {
         }
     }
     @PostMapping("/delete")
-    public void deletePost() {
+    public String deletePost(@RequestParam(name="idx", defaultValue = "0") int idx) {
         log.info("---------------------");
         log.info("BbsController => deletePost()");
         log.info("---------------------");
+        int result = bbsServiceIf.delete(idx);
+        if (result > 0) {
+            return "redirect:/bbs/list";
+        } else {
+            return "redirect:/bbs/view?idx="+idx;
+        }
     }
 }

@@ -33,7 +33,23 @@
 <div>
     <button type="button" onclick="location.href='/bbs/list'">목록</button>
     <button type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
-    <button type="button" onclick="location.href='/bbs/delete?idx=${bbsDTO.idx}'">삭제</button>
+    <button type="button" onclick="goDelete(${bbsDTO.idx})">삭제</button>
 </div>
+<script>
+    function goDelete(idx) {
+        if(confirm("삭제하시겠습니까?")) {
+            let frm = document.createElement("form");
+            let input = document.createElement("input");
+            frm.action = "/bbs/delete";
+            frm.method = "post"
+            frm.id = "frm";
+            input.name = "idx";
+            input.value = idx;
+            frm.append(input);
+            document.body.append(frm);
+            document.querySelector("#frm").submit();
+        }
+    }
+</script>
 </body>
 </html>

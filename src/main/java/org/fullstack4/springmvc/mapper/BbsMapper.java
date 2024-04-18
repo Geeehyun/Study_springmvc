@@ -13,4 +13,5 @@ public interface BbsMapper {
     BbsVO view(int idx);
 
     int modify(BbsVO bbsVO);
+    int delete(int idx);
 }
