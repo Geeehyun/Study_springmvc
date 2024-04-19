@@ -27,4 +27,6 @@ public class MemberVO {
     private LocalDate reg_date;
     private LocalDate leave_date;
     private LocalDate pwd_change_date;
+    private String interest;
+    private String email;
 }

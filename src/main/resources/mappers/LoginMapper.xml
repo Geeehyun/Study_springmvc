@@ -3,6 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fullstack4.springmvc.mapper.LoginMapper">
     <select id="login" resultType="org.fullstack4.springmvc.domain.MemberVO">
-        SELECT * FROM tbl_member WHERE user_id = #{user_id}
+        SELECT * FROM tbl_member WHERE user_state = 'Y' AND user_id = #{user_id}
     </select>
 </mapper>

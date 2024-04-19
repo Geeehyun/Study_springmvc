@@ -58,7 +58,7 @@ public class BbsController {
         log.info("BbsController => registPost()");
 
         if(bindingResult.hasErrors()) {
-            log.info("Errors");
+            log.info("Errors : " + bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("dto", dto);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             // 이런식으로 에러 있는지 bindingResult 체크해서 addFlashAttribute 보내면 처음 리다이렉트 한 페이지에서 한번만 조회하고 끝낼 수 있음.

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.checkerframework.checker.units.qual.C;
 import org.fullstack4.springmvc.domain.MemberVO;
+import org.fullstack4.springmvc.dto.LoginDTO;
 import org.fullstack4.springmvc.dto.MemberDTO;
 import org.fullstack4.springmvc.service.LoginServiceIf;
 import org.springframework.stereotype.Controller;
@@ -30,24 +31,20 @@ public class LoginController {
         log.info("---------------------");
     }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPOST(@Valid MemberDTO memberDTO,
+    public String loginPOST(@Valid LoginDTO memberDTO,
+                            BindingResult bindingResult,
                             @RequestParam(name = "acc_url", defaultValue = "/bbs/list") String acc_url,
                             @RequestParam(name = "save_id", defaultValue = "") String save_id,
                             @RequestParam(name = "auto_login", defaultValue = "") String auto_login,
                             RedirectAttributes redirectAttributes,
                             HttpServletRequest request,
-                            HttpServletResponse response,
-                            BindingResult bindingResult
+                            HttpServletResponse response
                             ) {
         log.info("---------------------");
         log.info("LoginController => loginPOST()");
-        log.info("user_id : " + memberDTO.getUser_id());
-        log.info("pwd : " + memberDTO.getPwd());
-        log.info("save_id : " + save_id);
-        log.info("auto_login : " + save_id);
         log.info("---------------------");
         if(bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("err", bindingResult.getAllErrors());
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/login/login";
         }
         MemberDTO loginDTO = serviceIf.login(memberDTO.getUser_id(), memberDTO.getPwd());
@@ -71,8 +68,22 @@ public class LoginController {
         redirectAttributes.addFlashAttribute("err", "로그인 실패");
         return "redirect:/login/login";
     }
+    @RequestMapping(value = "/autoLogin", method = RequestMethod.POST)
+    public String autoLogin(@RequestParam(name = "auto_login", defaultValue = "") String auto_login,
+                            HttpServletRequest request
+                            ) {
+        log.info("---------------------");
+        log.info("LoginController => autoLogin()");
+        log.info("referer : " + request.getHeader("referer"));
+        MemberDTO loginDTO = serviceIf.login(auto_login);
+        HttpSession session = request.getSession();
+        session.setAttribute("user_id", loginDTO.getUser_id());
+        log.info("---------------------");
+        return "redirect:" + request.getHeader("referer");
+    }
     @RequestMapping(value = "/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
         log.info("---------------------");
         log.info("LoginController => logout()");
         log.info("---------------------");
@@ -80,6 +91,10 @@ public class LoginController {
         //`request.getSession(false)` : 세션이 없으면 생성하지 말고, 있는것만 리턴해
         //`request.getSession(true)` : 세션이 없으면 생성해서 리턴, 있으면 있는거 리턴 (기본값)
         session.invalidate();
+        Cookie cookie = new Cookie("auto_login", "");
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/bbs/list";
     }
 }

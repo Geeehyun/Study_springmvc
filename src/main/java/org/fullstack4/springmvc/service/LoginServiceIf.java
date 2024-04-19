@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface LoginServiceIf {
     MemberDTO login(String user_id, String pwd);
+    MemberDTO login(String user_id);
 }
 

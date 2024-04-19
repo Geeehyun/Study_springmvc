@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -14,10 +13,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberDTO {
+public class LoginDTO {
     @NotBlank
     private String user_id;
-    @NotBlank
     private String name;
     @NotBlank
     private String pwd;
