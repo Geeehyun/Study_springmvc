@@ -31,6 +31,7 @@ public class LoginController {
     }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPOST(@Valid MemberDTO memberDTO,
+                            @RequestParam(name = "acc_url", defaultValue = "/bbs/list") String acc_url,
                             @RequestParam(name = "save_id", defaultValue = "") String save_id,
                             @RequestParam(name = "auto_login", defaultValue = "") String auto_login,
                             RedirectAttributes redirectAttributes,
@@ -65,7 +66,7 @@ public class LoginController {
             }
             HttpSession session = request.getSession();
             session.setAttribute("user_id", loginDTO.getUser_id());
-            return "redirect:/bbs/list";
+            return "redirect:"+acc_url;
         }
         redirectAttributes.addFlashAttribute("err", "로그인 실패");
         return "redirect:/login/login";

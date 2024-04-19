@@ -15,6 +15,7 @@
 </head>
 <body>
 <form action="/login/login" method="post">
+    <input type="hidden" name="acc_url" value="${header.referer}">
     <div><span>아이디 : <input type="text" name="user_id" id="user_id" <c:if test="${!empty cookie['save_id'].value}">value="${cookie['save_id'].value}" </c:if></span></div>
     <div><span>비밀번호 : <input type="password" name="pwd" id="pwd" value=""></span></div>
     <div>

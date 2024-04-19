@@ -19,5 +19,8 @@
         <li><a href="/bbs/view?idx=${bbsDTO.idx}"> ${bbsDTO}</a></li>
     </c:forEach>
     </ul>
+<ul>
+    <li><a href="/login/login">로그인</a></li>
+</ul>
 </body>
 </html>

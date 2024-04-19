@@ -38,6 +38,9 @@
     <button type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
     <button type="button" onclick="goDelete(${bbsDTO.idx})">삭제</button>
 </div>
+<ul>
+    <li><a href="/login/login">로그인</a></li>
+</ul>
 <script>
     function goDelete(idx) {
         if(confirm("삭제하시겠습니까?")) {
