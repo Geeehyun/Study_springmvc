@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <title>Join</title>
 </head>
 <body>
@@ -25,11 +26,12 @@
             <div class="card-header bg-primary text-white">가입하기</div>
             <div class="card-body" style="padding: 30px">
                 <form action="/member/join" method="post" id="frm" class="row g-3">
+                    <input type="hidden" id="auth">
                     <div class="col-12">
                         <label for="user_id" class="form-label">아이디</label>
                         <div class="input-group mb-3 col-12">
                             <input type="text" class="form-control" placeholder="아이디를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2"  id="user_id" name="user_id" maxlength="20" value="${memberDTO['user_id']}" >
-                            <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="alert('미개발')">중복확인</button>
+                            <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="idDupCheck(document.querySelector('#user_id'))">중복확인</button>
                         </div>
                         <div class="invalid-feedback" id="div_err_user_id"></div>
                     </div>
@@ -106,6 +108,47 @@
         serverValidResult['${err.getField()}'] = '${err.defaultMessage}';
         console.log('${err.getField()} : ${err.defaultMessage}');
         </c:forEach>
+
+        // 아이디 중복체크
+        function idDupCheck(item) {
+            $.ajax({
+                url: "/member/idCheck",
+                method: 'post',
+                dataType : 'text',
+                data : {
+                    "user_id" : item.value
+                },
+                success: function (data) {
+                    let target = $('#div_err_user_id');
+                    console.log("item : " + item.value);
+                    console.log("data : " + data);
+                    if(!$(item).val().trim()) {
+                        $(target).text('아이디를 입력해주세요');
+                        $(target).css('color', '#e30000');
+                        $(target).css('display', 'block');
+                        $('#auth').val('false');
+                    } else {
+                        $(target).css('display', 'none');
+                        if (data != 0) {
+                            $(target).text('이미 등록된 아이디 입니다.');
+                            $(target).css('color', '#e30000');
+                            $(target).css('display', 'block');
+                            $('#auth').val('false');
+                        } else {
+                            $(target).text('사용 가능한 아이디 입니다.');
+                            $(target).css('color', '#057cfc');
+                            $(target).css('display', 'block');
+                            $('#auth').val('true');
+                        }
+                    }
+                },
+                error : function(xhr, status, error) {
+                    console.log("xhr! : " + xhr);
+                    console.log("status! : " + status);
+                    console.log("error! : " + error);
+                }
+            });
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <!--

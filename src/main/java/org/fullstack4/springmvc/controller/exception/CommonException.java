@@ -23,25 +23,29 @@ public class CommonException {
 //        return "Number format exception";
 //    }
 
-    @ResponseBody
+//    @ResponseBody
+//    @ExceptionHandler(Exception.class)
+//    public String exception(Exception exception) {
+//        log.info("-----------------------------");
+//        log.info(exception.getMessage());
+//        log.info("-----------------------------");
+//
+//        StringBuilder sb = new StringBuilder("<ul>");
+//        sb.append("<li>" + exception.getMessage() + "</li>");
+//
+//        Arrays.stream(exception.getStackTrace()).forEach((el)->{
+//            sb.append("<li>"+el+"</li>");
+//        });
+//        sb.append("</ul>");
+//        return sb.toString();
+//    }
     @ExceptionHandler(Exception.class)
-    public String exception(Exception exception) {
+    public String myError(Exception exception){
         log.info("-----------------------------");
         log.info(exception.getMessage());
-        log.info("-----------------------------");
-
-        StringBuilder sb = new StringBuilder("<ul>");
-        sb.append("<li>" + exception.getMessage() + "</li>");
-
-        Arrays.stream(exception.getStackTrace()).forEach((el)->{
-            sb.append("<li>"+el+"</li>");
-        });
-        sb.append("</ul>");
-        return sb.toString();
-    }
-    @ExceptionHandler(NoHandlerFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFound(){
-        return "custom404";
+        for(StackTraceElement el : exception.getStackTrace()) {
+            log.info(el);
+        }
+        return "/common/error";
     }
 }

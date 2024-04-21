@@ -40,5 +40,9 @@ public class CommonUtil {
         }
         return result;
     }
+
+    public static boolean idCheck(String sessionId, String userID) {
+        return sessionId.equals(userID);
+    }
 }
 

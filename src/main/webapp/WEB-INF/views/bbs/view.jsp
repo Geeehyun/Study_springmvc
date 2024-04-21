@@ -33,15 +33,17 @@
                 <h6 class="card-subtitle mb-2 text-muted">관심사항 : ${bbsDTO.interest}</h6>
                 <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
                     <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list'">목록</button>
-                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
-                    <button class="btn btn-outline-primary" type="button" onclick="goDelete(${bbsDTO.idx})">삭제</button>
+                    <c:if test="${sessionScope.user_id eq bbsDTO['user_id']}">
+                        <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
+                        <button class="btn btn-outline-primary" type="button" onclick="goDelete(${bbsDTO.idx}, ${bbsDTO['user_id']})">삭제</button>
+                    </c:if>
                 </div>
             </div>
             </div>
     </div>
 </div>
 <script>
-    function goDelete(idx) {
+    function goDelete(idx, user_id) {
         if(confirm("삭제하시겠습니까?")) {
             let frm = document.createElement("form");
             let input = document.createElement("input");
@@ -50,6 +52,9 @@
             frm.id = "frm";
             input.name = "idx";
             input.value = idx;
+            frm.append(input);
+            input.name = "user_id";
+            input.value = user_id;
             frm.append(input);
             document.body.append(frm);
             document.querySelector("#frm").submit();

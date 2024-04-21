@@ -19,7 +19,7 @@
 <body>
 <div class="container-fluid">
     <jsp:include page="/WEB-INF/views/common/common.jsp" />
-    <div style="padding: 30px 50px;" class="container-sm ">
+    <div class="container">
         <div class="card justify-content-md-center" style="width: 80%; margin: 0 auto;">
             <div class="card-header bg-primary text-white">로그인</div>
             <div class="card-body" style="padding: 30px">

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Log4j2
 @Controller
@@ -123,5 +124,17 @@ public class MemberController {
         log.info("---------------------");
         return "redirect:/member/view";
     }
+    @PostMapping("/idCheck")
+    @ResponseBody
+    public void leavePost(@RequestParam(name = "user_id", defaultValue = "") String user_id,
+                          HttpServletResponse response) throws IOException {
+        log.info("---------------------");
+        log.info("MemberController => idCheck()");
 
+        int result = (int) memberServiceIf.idCheck(user_id);
+        log.info("result : " + result);
+        response.setContentType("application/text; charset=utf-8");
+        response.getWriter().print(result);
+        log.info("---------------------");
+    }
 }

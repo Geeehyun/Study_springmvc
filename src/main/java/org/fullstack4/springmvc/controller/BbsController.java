@@ -2,6 +2,7 @@ package org.fullstack4.springmvc.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.fullstack4.springmvc.common.CommonUtil;
 import org.fullstack4.springmvc.dto.BbsDTO;
 import org.fullstack4.springmvc.service.BbsServiceIf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,10 +37,13 @@ public class BbsController {
     }
     @GetMapping("/view")
     public void view(@RequestParam(name="idx", defaultValue = "0") int idx,
-                     Model model) {
+                     Model model) throws Exception {
         log.info("---------------------");
         log.info("BbsController => view()");
         BbsDTO bbsDTO = bbsServiceIf.view(idx);
+        if(bbsDTO == null) {
+            throw new Exception("없는 게시글 입니다.");
+        }
         bbsDTO.setContent(bbsDTO.getContent().replace("\r\n", "<br>"));
         log.info("bbsDTO : " + bbsDTO);
         log.info("---------------------");
@@ -78,38 +84,71 @@ public class BbsController {
     }
     @GetMapping("/modify")
     public void modifyGet(@RequestParam(name="idx", defaultValue = "0") int idx,
-                          Model model) {
+                          HttpServletRequest request,
+                          Model model) throws Exception {
+        HttpSession session = request.getSession();
         log.info("---------------------");
         log.info("BbsController => modifyGet()");
         log.info("---------------------");
         BbsDTO bbsDTO = bbsServiceIf.view(idx);
+        if(bbsDTO == null) {
+            throw new Exception("업는 게시글 입니다.");
+        }
+        if(!CommonUtil.idCheck(CommonUtil.parseString(session.getAttribute("user_id")),CommonUtil.parseString(bbsDTO.getUser_id()))) {
+            throw new Exception("본인 게시글만 수정 할 수 있습니다.");
+        }
         log.info("bbsDTO : " + bbsDTO);
         log.info("---------------------");
         model.addAttribute("bbsDTO", bbsDTO);
     }
     @PostMapping("/modify")
-    public String modifyPost(BbsDTO dto,
-                           Model model) {
+    public String modifyPost(@Valid BbsDTO dto,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession();
         log.info("---------------------");
         log.info("BbsController => modifyPost()");
         log.info("---------------------");
-        int result = bbsServiceIf.modify(dto);
-        if(result > 0 ){
-            return "redirect:/bbs/view?idx="+dto.getIdx();
+        if (CommonUtil.idCheck(CommonUtil.parseString(session.getAttribute("user_id")),CommonUtil.parseString(dto.getUser_id()))) {
+            if(bindingResult.hasErrors()) {
+                log.info("Errors : " + bindingResult.getAllErrors());
+                redirectAttributes.addFlashAttribute("dto", dto);
+                redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+                return "redirect:/bbs/modify?idx="+dto.getIdx();
+            }
+            int result = bbsServiceIf.modify(dto);
+            if(result > 0 ){
+                return "redirect:/bbs/view?idx="+dto.getIdx();
+            } else {
+                return "redirect:/bbs/modify?idx="+dto.getIdx();
+            }
         } else {
-            return "redirect:/bbs/modify?idx="+dto.getIdx();
+            redirectAttributes.addFlashAttribute("error", "잘못된 접근입니다.");
+            return "redirect:/bbs/list";
         }
     }
     @PostMapping("/delete")
-    public String deletePost(@RequestParam(name="idx", defaultValue = "0") int idx) {
+    public String deletePost(@RequestParam(name="idx", defaultValue = "0") int idx,
+                             @RequestParam(name="user_id", defaultValue = "") String user_id,
+                             RedirectAttributes redirectAttributes,
+                             HttpServletRequest request) {
+        HttpSession session = request.getSession();
         log.info("---------------------");
         log.info("BbsController => deletePost()");
         log.info("---------------------");
-        int result = bbsServiceIf.delete(idx);
-        if (result > 0) {
-            return "redirect:/bbs/list";
+        if (CommonUtil.idCheck(CommonUtil.parseString(session.getAttribute("user_id")),CommonUtil.parseString(user_id))) {
+            int result = bbsServiceIf.delete(idx);
+            if (result > 0) {
+                return "redirect:/bbs/list";
+            } else {
+                return "redirect:/bbs/view?idx="+idx;
+            }
         } else {
-            return "redirect:/bbs/view?idx="+idx;
+            log.info("아이디 불일치");
+            redirectAttributes.addFlashAttribute("error", "잘못된 접근입니다.");
+            return "redirect:/bbs/list";
         }
+
     }
 }

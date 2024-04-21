@@ -9,5 +9,6 @@ public interface MemberServiceIf {
     MemberDTO select(String user_id);
     int update(MemberDTO memberDTO);
     int leave(String user_id);
+    int idCheck(String user_id);
 }
 

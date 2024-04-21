@@ -24,13 +24,23 @@
             <div class="card-body" style="padding: 30px">
                 <div class="list-group ">
                 <c:forEach var="bbsDTO" items="${bbsDTOList}" varStatus="status">
-                    <a class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " href="/bbs/view?idx=${bbsDTO.idx}"> ${bbsDTO.title} | ${bbsDTO['user_id']}</a>
+                    <div class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " onclick="location.href = '/bbs/view?idx=${bbsDTO.idx}'">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6>${bbsDTO.title}</h6>
+                        </div>
+                        <small class="text-mute">작성자 : ${bbsDTO['user_id']} | 표시일 : ${bbsDTO['display_date']}</small>
+                    </div>
                 </c:forEach>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    if(${!empty error}) {
+        alert("잘못된 접근 입니다.");
+    }
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

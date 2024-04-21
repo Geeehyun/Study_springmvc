@@ -36,13 +36,16 @@ public class MemberServiceImpl implements MemberServiceIf {
     @Override
     public int update(MemberDTO memberDTO) {
         MemberVO memberVO = modelMapper.map(memberDTO, MemberVO.class);
-        int result = memberMapper.update(memberVO);
-        return result;
+        return memberMapper.update(memberVO);
     }
 
     @Override
     public int leave(String user_id) {
-        int result = memberMapper.leave(user_id);
-        return result;
+        return memberMapper.leave(user_id);
+    }
+
+    @Override
+    public int idCheck(String user_id) {
+        return (int) memberMapper.idCheck(user_id);
     }
 }

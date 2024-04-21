@@ -7,4 +7,5 @@ public interface MemberMapper {
     MemberVO select(String user_id);
     int update(MemberVO memberVO);
     int leave(String user_id);
+    int idCheck(String user_id);
 }
