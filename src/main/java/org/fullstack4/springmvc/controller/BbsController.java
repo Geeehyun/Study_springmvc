@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.fullstack4.springmvc.common.CommonUtil;
 import org.fullstack4.springmvc.dto.BbsDTO;
+import org.fullstack4.springmvc.dto.PageRequestDTO;
+import org.fullstack4.springmvc.dto.PageResponseDTO;
 import org.fullstack4.springmvc.service.BbsServiceIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +28,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BbsController {
     private final BbsServiceIf bbsServiceIf;
+//    @GetMapping("/list")
+//    public void list(Model model) { // 초기 버전
+//        log.info("---------------------");
+//        log.info("BbsController => list()");
+//        log.info("---------------------");
+//        List<BbsDTO> bbsDTOList = bbsServiceIf.listAll();
+//        model.addAttribute("bbsDTOList", bbsDTOList);
+//    }
+
     @GetMapping("/list")
-    public void list(Model model) {
+    public void list(@Valid PageRequestDTO pageRequestDTO,
+                     BindingResult bindingResult,
+                     RedirectAttributes redirectAttributes,
+                     Model model) {
         log.info("---------------------");
-        log.info("BbsController => list()");
+        log.info("BbsController => list() Start");
+        log.info("BbsController >> pageRequestDTO" + pageRequestDTO);
+        if(bindingResult.hasErrors()) {
+            log.info("BbsController >> list Error");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+        PageResponseDTO<BbsDTO> responseDTO = bbsServiceIf.bbsListByPage(pageRequestDTO);
+        model.addAttribute("responseDTO", responseDTO);
+        log.info("BbsController >> responseDTO" + responseDTO);
+        log.info("BbsController => list() End");
         log.info("---------------------");
-        List<BbsDTO> bbsDTOList = bbsServiceIf.listAll();
-//        log.info("bbsDTOList : " + bbsDTOList);
-        model.addAttribute("bbsDTOList", bbsDTOList);
     }
     @GetMapping("/view")
     public void view(@RequestParam(name="idx", defaultValue = "0") int idx,

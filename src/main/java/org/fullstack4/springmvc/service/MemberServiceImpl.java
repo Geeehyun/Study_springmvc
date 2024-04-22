@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.fullstack4.springmvc.domain.MemberVO;
 import org.fullstack4.springmvc.dto.MemberDTO;
+import org.fullstack4.springmvc.dto.PageRequestDTO;
 import org.fullstack4.springmvc.mapper.LoginMapper;
 import org.fullstack4.springmvc.mapper.MemberMapper;
 import org.modelmapper.ModelMapper;
@@ -48,4 +49,5 @@ public class MemberServiceImpl implements MemberServiceIf {
     public int idCheck(String user_id) {
         return (int) memberMapper.idCheck(user_id);
     }
+
 }

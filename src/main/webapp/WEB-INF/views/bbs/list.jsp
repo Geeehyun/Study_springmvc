@@ -23,7 +23,7 @@
             <div class="card-header bg-primary text-white">게시판</div>
             <div class="card-body" style="padding: 30px">
                 <div class="list-group ">
-                <c:forEach var="bbsDTO" items="${bbsDTOList}" varStatus="status">
+                <c:forEach var="bbsDTO" items="${responseDTO.dtoList}" varStatus="status">
                     <div class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " onclick="location.href = '/bbs/view?idx=${bbsDTO.idx}'">
                         <div class="d-flex w-100 justify-content-between">
                             <h6>${bbsDTO.title}</h6>
@@ -41,6 +41,25 @@
                     </div>
                 </c:forEach>
                 </div>
+                <nav class="mt-3" aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <c:if test="${!responseDTO.prev_page_flag}">disabled</c:if>">
+                            <a class="page-link" href="${responseDTO.linked_params}&page=${((responseDTO.page - responseDTO.page_block_size) >= 1) ? (responseDTO.page - responseDTO.page_block_size) : 1}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <c:forEach var="li" begin="${responseDTO.page_block_start}" end="${responseDTO.page_block_end}">
+                            <li class="page-item <c:if test="${responseDTO.page eq li}">active</c:if> ">
+                                <a class="page-link" href="${responseDTO.linked_params}&page=${li}">${li}</a>
+                            </li>
+                        </c:forEach>
+                        <li class="page-item <c:if test="${!responseDTO.next_page_flag}">disabled</c:if>">
+                            <a class="page-link" href="${responseDTO.linked_params}&page=${(responseDTO.page + responseDTO.page_block_size) <= responseDTO.total_page ? (responseDTO.page + responseDTO.page_block_size) : responseDTO.total_page}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

@@ -27,4 +27,34 @@
     <delete id="delete">
         DELETE FROM tbl_bbs WHERE idx=#{idx}
     </delete>
+
+    <select id="bbsTotalCount" resultType="int">
+        SELECT COUNT(*) FROM tbl_bbs
+        <where>
+            <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
+                <if test="type=='t'.toString()">
+                    title LIKE CONCAT('%', #{search_word}, '%')
+                </if>
+                <if test="type=='u'.toString()">
+                    user_id LIKE CONCAT('%', #{search_word}, '%')
+                </if>
+            </foreach>
+        </where>
+    </select>
+
+    <select id="bbsListByPage" resultType="org.fullstack4.springmvc.domain.BbsVO">
+        SELECT * FROM tbl_bbs
+        <where>
+            <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
+                <if test="type=='t'.toString()">
+                    title LIKE CONCAT('%', #{search_word}, '%')
+                </if>
+                <if test="type=='u'.toString()">
+                    user_id LIKE CONCAT('%', #{search_word}, '%')
+                </if>
+            </foreach>
+        </where>
+        ORDER BY idx DESC LIMIT #{page_skip_count}, #{page_size}
+    </select>
+
 </mapper>
