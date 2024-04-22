@@ -32,7 +32,7 @@ public class BbsController {
         log.info("BbsController => list()");
         log.info("---------------------");
         List<BbsDTO> bbsDTOList = bbsServiceIf.listAll();
-        log.info("bbsDTOList : " + bbsDTOList);
+//        log.info("bbsDTOList : " + bbsDTOList);
         model.addAttribute("bbsDTOList", bbsDTOList);
     }
     @GetMapping("/view")
@@ -45,7 +45,7 @@ public class BbsController {
             throw new Exception("없는 게시글 입니다.");
         }
         bbsDTO.setContent(bbsDTO.getContent().replace("\r\n", "<br>"));
-        log.info("bbsDTO : " + bbsDTO);
+//        log.info("bbsDTO : " + bbsDTO);
         log.info("---------------------");
         model.addAttribute("bbsDTO", bbsDTO);
     }

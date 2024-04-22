@@ -50,13 +50,11 @@ public class MemberController {
                             {
         log.info("---------------------");
         log.info("MemberController => joinPost()");
+        log.info("memberDTO : " + memberDTO);
         if(bindingResult.hasErrors()) {
             log.info("Errors : " + bindingResult.getAllErrors());
-            log.info("memberDTO : " + memberDTO);
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("memberDTO", memberDTO);
-            redirectAttributes.addFlashAttribute("test", "test");
-            redirectAttributes.addAttribute("test2", "test2");
             return "redirect:/member/join";
         }
         log.info("memberDTO : " + memberDTO);

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <%--<html>--%>
@@ -26,6 +27,14 @@
             <div class="card justify-content-md-center" style="width: 80%; margin: 0 auto";>
                 <div class="card-header bg-primary text-white">Index</div>
                 <div class="card-body" style="padding: 30px">
+                    <h4 class="card-title mb-3">환영합니다😀
+                        <c:if test="${!empty sessionScope['user_id']}">
+                            ${sessionScope['user_id']}님
+                        </c:if>
+                        <c:if test="${empty sessionScope['user_id']}">
+                            낯선이여
+                        </c:if>
+                    </h4>
                     <div class="list-group">
                         <a href="/bbs/list" class="list-group-item list-group-item-action" aria-current="true">
                             <div class="d-flex w-100 justify-content-between">

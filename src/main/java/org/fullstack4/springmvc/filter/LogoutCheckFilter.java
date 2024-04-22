@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Log4j2
-@WebFilter(urlPatterns = {"/login/login", "/member/join"})
+@WebFilter(urlPatterns = {"/login/login", "/member/join", "/member/complete"})
 public class LogoutCheckFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

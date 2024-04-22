@@ -20,7 +20,7 @@ public class MemberVO {
     private String jumin;
     private String addr1;
     private String addr2;
-    private String birthday;
+    private LocalDate birthday;
     private String job_code;
     private int mileage;
     private String user_state;

@@ -31,17 +31,17 @@
                         <input type="text" class="form-control" id="user_id" name="user_id" maxlength="20" value="${sessionScope['user_id']}" readonly>
                     </div>
                     <div class="col-12">
-                        <label for="title" class="form-label">제목</label>
+                        <label for="title" class="form-label">제목<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="title" name="title" maxlength="100" value="${bbsDTO.title}">
                         <div class="invalid-feedback" id="div_err_title"></div>
                     </div>
                     <div class="col-12">
-                        <label for="content" class="form-label">내용</label>
-                        <textarea class="form-control" aria-label="With textarea" id="content" name="content" >${bbsDTO.content}</textarea>
+                        <label for="content" class="form-label">내용<span class="text-danger"> *</span></label>
+                        <textarea class="form-control" aria-label="With textarea" id="content" name="content"  rows="15">${bbsDTO.content}</textarea>
                         <div class="invalid-feedback" id="div_err_content"></div>
                     </div>
                     <div class="col-12">
-                        <label for="display_date" class="form-label">출력날짜</label>
+                        <label for="display_date" class="form-label">출력날짜<span class="text-danger"> *</span></label>
                         <input type="date" class="form-control" id="display_date" name="display_date" value="${bbsDTO.display_date}">
                         <div class="invalid-feedback" id="div_err_display_date"></div>
                     </div>

@@ -24,13 +24,20 @@
             <div class="card-body" style="padding: 30px">
                 <h5 class="card-title">제목 : ${bbsDTO.title}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">작성자 : ${bbsDTO.user_id}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">출력날짜 : ${bbsDTO.display_date}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">관심사항 :
+                    <c:if test="${empty bbsDTO.interest}">
+                        없음
+                    </c:if>
+                    <c:if test="${!empty bbsDTO.interest}">
+                        ${bbsDTO.interest}
+                    </c:if>
+                </h6>
                 <div class="card-text card mb-3 mt-3">
                     <p class="card-text p-2" >
                         ${bbsDTO.content}
                     </p>
                 </div>
-                <h6 class="card-subtitle mb-2 text-muted">출력날짜 : ${bbsDTO.display_date}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">관심사항 : ${bbsDTO.interest}</h6>
                 <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
                     <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list'">목록</button>
                     <c:if test="${sessionScope.user_id eq bbsDTO['user_id']}">

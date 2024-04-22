@@ -35,12 +35,12 @@
                         <div class="invalid-feedback" id="div_err_user_id"></div>
                     </div>
                     <div class="col-12">
-                        <label for="name" class="form-label">이름</label>
+                        <label for="name" class="form-label">이름<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="name" name="name" maxlength="100" value="${memberDTO.name}">
                         <div class="invalid-feedback" id="div_err_name"></div>
                     </div>
                     <div class="col-12">
-                        <label for="pwd" class="form-label">비밀번호</label>
+                        <label for="pwd" class="form-label">비밀번호<span class="text-danger"> *</span></label>
                         <input type="password" class="form-control" id="pwd" name="pwd" maxlength="100" value="${memberDTO.pwd}">
                         <div class="invalid-feedback" id="div_err_pwd"></div>
                     </div>
@@ -50,7 +50,7 @@
                         <div class="invalid-feedback" id="div_err_email"></div>
                     </div>
                     <div class="col-12">
-                        <label for="birthday" class="form-label">생년월일</label>
+                        <label for="birthday" class="form-label">생년월일<span class="text-danger"> *</span></label>
                         <input type="date" class="form-control" id="birthday" name="birthday" value="${memberDTO.birthday}">
                         <div class="invalid-feedback" id="div_err_birthday"></div>
                     </div>

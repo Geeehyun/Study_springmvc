@@ -28,7 +28,7 @@
                 <form action="/member/join" method="post" id="frm" class="row g-3">
                     <input type="hidden" id="auth">
                     <div class="col-12">
-                        <label for="user_id" class="form-label">아이디</label>
+                        <label for="user_id" class="form-label">아이디<span class="text-danger"> *</span></label>
                         <div class="input-group mb-3 col-12">
                             <input type="text" class="form-control" placeholder="아이디를 입력해주세요" aria-label="Recipient's username" aria-describedby="button-addon2"  id="user_id" name="user_id" maxlength="20" value="${memberDTO['user_id']}" >
                             <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="idDupCheck(document.querySelector('#user_id'))">중복확인</button>
@@ -36,12 +36,12 @@
                         <div class="invalid-feedback" id="div_err_user_id"></div>
                     </div>
                     <div class="col-12">
-                        <label for="name" class="form-label">이름</label>
+                        <label for="name" class="form-label">이름<span class="text-danger"> *</span></label>
                         <input type="text" class="form-control" id="name" name="name" maxlength="100" value="${memberDTO.name}">
                         <div class="invalid-feedback" id="div_err_name"></div>
                     </div>
                     <div class="col-12">
-                        <label for="pwd" class="form-label">비밀번호</label>
+                        <label for="pwd" class="form-label">비밀번호<span class="text-danger"> *</span></label>
                         <input type="password" class="form-control" id="pwd" name="pwd" maxlength="100" value="${memberDTO.pwd}">
                         <div class="invalid-feedback" id="div_err_pwd"></div>
                     </div>
@@ -51,7 +51,7 @@
                         <div class="invalid-feedback" id="div_err_email"></div>
                     </div>
                     <div class="col-12">
-                        <label for="birthday" class="form-label">생년월일</label>
+                        <label for="birthday" class="form-label">생년월일<span class="text-danger"> *</span></label>
                         <input type="date" class="form-control" id="birthday" name="birthday" value="${memberDTO.birthday}">
                         <div class="invalid-feedback" id="div_err_birthday"></div>
                     </div>
@@ -85,13 +85,26 @@
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-outline-primary" type="button" onclick="location.href = '/'">취소</button>
-                        <button class="btn btn-outline-primary" type="submit">제출</button>
+                        <button class="btn btn-outline-primary" type="button" onclick="checkVal()">제출</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script>
+        function checkVal() {
+            const frm = document.querySelector("#frm");
+            let auth = document.querySelector("#auth");
+            if ($(auth).val() != 'true') {
+                let target =  document.getElementById("div_err_user_id");
+                target.innerText = "아이디 중복확인을 진행해주세요";
+                target.style.display = "block";
+                $('#user_id').focus();
+                return;
+            }
+            frm.submit();
+        }
+
         const serverValidResult = {};
         <c:forEach var="err" items="${errors}">
         if(document.getElementById("div_err_${err.getField()}") != null) {

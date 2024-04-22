@@ -28,7 +28,16 @@
                         <div class="d-flex w-100 justify-content-between">
                             <h6>${bbsDTO.title}</h6>
                         </div>
-                        <small class="text-mute">작성자 : ${bbsDTO['user_id']} | 표시일 : ${bbsDTO['display_date']}</small>
+                        <small class="text-mute">
+                            작성자 : ${bbsDTO['user_id']} |
+                            출력날짜 : ${bbsDTO['display_date']} |
+                            관심사항 :
+                            <c:if test="${empty bbsDTO.interest}">
+                                없음
+                            </c:if>
+                            <c:if test="${!empty bbsDTO.interest}">
+                                ${bbsDTO.interest}
+                            </c:if></small>
                     </div>
                 </c:forEach>
                 </div>
