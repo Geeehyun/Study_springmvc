@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fullstack4.springmvc.mapper.BbsReplyMapper">
+    <insert id="regist">
+        INSERT INTO tbl_bbs_reply (bbs_idx, title, content, user_id)
+        VALUES (#{bbs_idx}, #{title}, #{content}, #{user_id})
+    </insert>
+    <update id="update_replyCnt">
+        UPDATE tbl_bbs SET replyCnt = replyCnt + 1
+        WHERE idx = #{bbs_idx}
+    </update>
+    <select id="list" resultType="org.fullstack4.springmvc.domain.BbsReplyVO">
+        SELECT * FROM tbl_bbs_reply WHERE bbs_idx = #{bbs_idx}
+    </select>
+</mapper>

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import javax.validation.constraints.Positive;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -35,4 +34,8 @@ public class BbsDTO {
     private LocalDate reg_date;
     private LocalDate modify_date;
     private String interest;
+    @Builder.Default
+    @PositiveOrZero
+    @Min(value=0)
+    private int replyCnt=0;
 }

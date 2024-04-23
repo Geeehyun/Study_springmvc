@@ -10,18 +10,15 @@ import java.time.LocalDate;
 
 @Log4j2
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class BbsVO {
+public class BbsReplyVO {
     private int idx;
-    private String user_id;
+    private int bbs_idx;
     private String title;
     private String content;
-    private String display_date;
-    private int readCnt;
+    private String user_id;
     private LocalDate reg_date;
     private LocalDate modify_date;
-    private String interest;
-    private int replyCnt;
 }

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/main/resources/mappers/BbsMapper.xml" dialect="MariaDB" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/mappers/LoginMapper.xml" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mappers/BbsReplyMapper.xml" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mappers/LoginMapper.xml" dialect="MariaDB" />
     <file url="file://$PROJECT_DIR$/src/main/resources/mappers/MemberMapper.xml" dialect="MariaDB" />
   </component>
 </project>
