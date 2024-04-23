@@ -3,7 +3,9 @@ package org.fullstack4.springmvc.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import org.fullstack4.springmvc.common.CommonUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Log4j2
@@ -20,6 +22,7 @@ public class PageResponseDTO<E> {
     private boolean prev_page_flag;
     private boolean next_page_flag;
     private String[] search_type;
+    private String search_type_st;
     private String search_word;
     private String search_data1;
     private String search_data2;
@@ -41,8 +44,12 @@ public class PageResponseDTO<E> {
         this.page_block_end = (page_block_start + (page_block_size-1)) <  total_page ? (page_block_start + (page_block_size-1)) : total_page;
         this.prev_page_flag = (this.page_block_start > 1); // 이전페이지 있는지 여부(페이지네이션에서 10개씩 이전 가는거)
         this.next_page_flag = (this.total_page > this.page_block_end); // 다음페이지 있는지 여부(페이지네이션에서 10개씩 다음 가는거)
-
-        this.linked_params = "?page_size=" + this.page_size;  // 쿼리스트링
+        this.search_word = CommonUtil.parseString(requestDTO.getSearch_word());
+        this.search_type =  requestDTO.getSearch_type();
+        this.search_type_st = (search_type != null) ? Arrays.toString(search_type).replace("[","").replace("]","").replace(" ","") : "t,u";
+        this.search_data1 = CommonUtil.parseString(requestDTO.getSearch_data1());
+        this.search_data2 = CommonUtil.parseString(requestDTO.getSearch_data2());
+        this.linked_params = "?page_size=" + this.page_size + "&search_type=" + search_type_st + "&search_word=" + this.search_word + "&search_data1=" + search_data1 + "&search_data2=" + search_data2;  // 쿼리스트링
         this.dtoList = dtoList;
         log.info("PageResponseDTO End");
         log.info("-------------------");

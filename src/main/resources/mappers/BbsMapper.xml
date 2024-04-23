@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fullstack4.springmvc.mapper.BbsMapper">
+    <!-- 각 각의 다른 쿼리문에서 반복적으로 동일한 문장이 들어갈 경우 <sql> 태그로 설정해서 이용할 수 있음 -->
+    <sql id="whereCondition">
+        <where>
+            <if test="search_type != null">
+                <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
+                    <if test="type=='t'.toString()">
+                        title LIKE CONCAT('%', #{search_word}, '%')
+                    </if>
+                    <if test="type=='u'.toString()">
+                        user_id LIKE CONCAT('%', #{search_word}, '%')
+                    </if>
+                </foreach>
+            </if>
+            <if test="search_data1 != null and search_data1 != ''">
+                AND display_date <![CDATA[>=]]> #{search_data1}
+            </if>
+            <if test="search_data2 != null and search_data2 != ''">
+                AND display_date <![CDATA[<=]]> #{search_data2}
+            </if>
+        </where>
+    </sql>
     <insert id="regist">
         INSERT INTO tbl_bbs (user_id, title, content, display_date, readCnt, reg_date, interest)
         VALUES ( #{user_id}, #{title}, #{content}, #{display_date}, #{readCnt}, now(), #{interest})
@@ -30,30 +51,12 @@
 
     <select id="bbsTotalCount" resultType="int">
         SELECT COUNT(*) FROM tbl_bbs
-        <where>
-            <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
-                <if test="type=='t'.toString()">
-                    title LIKE CONCAT('%', #{search_word}, '%')
-                </if>
-                <if test="type=='u'.toString()">
-                    user_id LIKE CONCAT('%', #{search_word}, '%')
-                </if>
-            </foreach>
-        </where>
+        <include refid="whereCondition"/>
     </select>
 
     <select id="bbsListByPage" resultType="org.fullstack4.springmvc.domain.BbsVO">
         SELECT * FROM tbl_bbs
-        <where>
-            <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
-                <if test="type=='t'.toString()">
-                    title LIKE CONCAT('%', #{search_word}, '%')
-                </if>
-                <if test="type=='u'.toString()">
-                    user_id LIKE CONCAT('%', #{search_word}, '%')
-                </if>
-            </foreach>
-        </where>
+        <include refid="whereCondition"/>
         ORDER BY idx DESC LIMIT #{page_skip_count}, #{page_size}
     </select>
 

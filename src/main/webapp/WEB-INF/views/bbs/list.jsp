@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -22,24 +23,74 @@
         <div class="card justify-content-md-center" style="width: 80%; margin: 0 auto";>
             <div class="card-header bg-primary text-white">게시판</div>
             <div class="card-body" style="padding: 30px">
-                <div class="list-group ">
-                <c:forEach var="bbsDTO" items="${responseDTO.dtoList}" varStatus="status">
-                    <div class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " onclick="location.href = '/bbs/view?idx=${bbsDTO.idx}'">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6>${bbsDTO.title}</h6>
-                        </div>
-                        <small class="text-mute">
-                            작성자 : ${bbsDTO['user_id']} |
-                            출력날짜 : ${bbsDTO['display_date']} |
-                            관심사항 :
-                            <c:if test="${empty bbsDTO.interest}">
-                                없음
-                            </c:if>
-                            <c:if test="${!empty bbsDTO.interest}">
-                                ${bbsDTO.interest}
-                            </c:if></small>
+                <div class="card p-3 mb-2 bg-light">
+                    <div class="container">
+                        <form class="d-grid gap-3">
+                            <div>
+                                <div class="d-flex justify-content-between" style="align-items: center">
+                                    <div class="form-check" style="width: 100px">
+                                        <input class="form-check-input" type="checkbox" value="t" id="search_type1" name="search_type" <c:if test="${(responseDTO['search_type'] == null) || (fn:contains(responseDTO['search_type_st'],'t'))}">checked</c:if> >
+                                        <label class="form-check-label" for="search_type1">
+                                            제목
+                                        </label>
+                                    </div>
+                                    <div class="form-check" style="width: 100px">
+                                        <input class="form-check-input" type="checkbox" value="u" id="search_type2" name="search_type" <c:if test="${(responseDTO['search_type'] == null) || (fn:contains(responseDTO['search_type_st'],'u'))}">checked</c:if> >
+                                        <label class="form-check-label" for="search_type2">
+                                            작성자
+                                        </label>
+                                    </div>
+                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_word" value="${responseDTO['search_word']}">
+                                </div>
+                            </div>
+                            <div>
+                                <div  class="d-flex justify-content-between">
+                                    <input class="form-control me-2" type="date" name="search_data1" value="${responseDTO['search_data1']}">
+                                    <span>&nbsp;&nbsp;~&nbsp;&nbsp;</span>
+                                    <input class="form-control me-2" type="date" name="search_data2" value="${responseDTO['search_data2']}">
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary mt-2" type="submit">검색</button>
+                                <button class="btn btn-outline-primary mt-2" type="button" onclick="location.href = '/bbs/list'">초기화</button>
+                            </div>
+                        </form>
                     </div>
-                </c:forEach>
+                </div>
+                <div>
+                    총 ${responseDTO.total_count} 건
+                </div>
+                <div class="list-group ">
+                    <c:choose>
+                        <c:when test="${empty responseDTO.dtoList}">
+                        <div class="p-2 list-group-item list-group-item-action">
+                            게시글이 없습니다.
+                        </div>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="i" value="${responseDTO['total_count'] - ((responseDTO['page_block_size'])* (responseDTO.page - 1))}" />
+                            <c:forEach var="bbsDTO" items="${responseDTO.dtoList}" varStatus="status">
+                                <div class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " onclick="location.href = '/bbs/view${responseDTO['linked_params']}&page=${param.page}&idx=${bbsDTO.idx}'">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6>${bbsDTO.title}</h6>
+                                    </div>
+                                    <small class="text-mute">
+                                        NO :  ${i} |
+                                        작성자 : ${bbsDTO['user_id']} |
+                                        출력날짜 : ${bbsDTO['display_date']} |
+                                        관심사항 :
+                                        <c:if test="${empty bbsDTO.interest}">
+                                            없음
+                                        </c:if>
+                                        <c:if test="${!empty bbsDTO.interest}">
+                                            ${bbsDTO.interest}
+                                        </c:if></small>
+                                </div>
+                                <c:set var="i" value="${i-1}" />
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
                 <nav class="mt-3" aria-label="Page navigation">
                     <ul class="pagination justify-content-center">

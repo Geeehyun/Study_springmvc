@@ -2,7 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
     <%--<h1>header</h1>--%>
-
 <header class="border-bottom mb-4 ">
     <div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 ">
     <div class="col-md-3 mb-2 mb-md-0">

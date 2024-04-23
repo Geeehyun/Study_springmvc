@@ -51,7 +51,7 @@ public class BbsController {
         }
         PageResponseDTO<BbsDTO> responseDTO = bbsServiceIf.bbsListByPage(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
-        log.info("BbsController >> responseDTO" + responseDTO);
+//        log.info("BbsController >> responseDTO" + responseDTO);
         log.info("BbsController => list() End");
         log.info("---------------------");
     }

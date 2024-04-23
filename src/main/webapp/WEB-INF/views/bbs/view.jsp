@@ -39,7 +39,12 @@
                     </p>
                 </div>
                 <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list'">목록</button>
+                    <c:set var="linked_params">
+                        <c:forEach var="key" items="${paramValues.keySet()}" varStatus="status">
+                            <c:if test="${key != 'idx'}"><c:if test="${status.first}">${key}=${param[key]}</c:if><c:if test="${! status.first}">&${key}=${param[key]}</c:if></c:if>
+                        </c:forEach>
+                    </c:set>
+                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list?${linked_params}'">목록</button>
                     <c:if test="${sessionScope.user_id eq bbsDTO['user_id']}">
                         <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
                         <button class="btn btn-outline-primary" type="button" onclick="goDelete(${bbsDTO.idx}, ${bbsDTO['user_id']})">삭제</button>

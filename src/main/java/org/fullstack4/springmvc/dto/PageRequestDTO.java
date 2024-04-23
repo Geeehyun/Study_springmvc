@@ -51,7 +51,6 @@ public class PageRequestDTO {
     @PositiveOrZero
     @Min(value=1)
     private int page_block_end=1;
-
     private String[] search_type;
     private String search_word;
     private String search_data1;
