@@ -49,7 +49,11 @@ public class PageResponseDTO<E> {
         this.search_type_st = (search_type != null) ? Arrays.toString(search_type).replace("[","").replace("]","").replace(" ","") : "t,u";
         this.search_data1 = CommonUtil.parseString(requestDTO.getSearch_data1());
         this.search_data2 = CommonUtil.parseString(requestDTO.getSearch_data2());
-        this.linked_params = "?page_size=" + this.page_size + "&search_type=" + search_type_st + "&search_word=" + this.search_word + "&search_data1=" + search_data1 + "&search_data2=" + search_data2;  // 쿼리스트링
+        StringBuilder sb = new StringBuilder("?page_size=" + this.page_size);
+        if(search_type != null) sb.append("&search_type=" + search_type_st + "&search_word=" + this.search_word);
+        if(!search_data1.equals("")) sb.append("&search_data1=" + search_data1);
+        if(!search_data2.equals("")) sb.append("&search_data2=" + search_data2);
+        this.linked_params =  sb.toString();  // 쿼리스트링
         this.dtoList = dtoList;
         log.info("PageResponseDTO End");
         log.info("-------------------");

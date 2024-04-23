@@ -12,10 +12,10 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/bbs/fileUpload" method="post" enctype="multipart/form-data">
+<form action="/bbs/fileUpload2" method="post" enctype="multipart/form-data">
     <div>
         <span>파일업로드</span>
-        <input type="file" name="file" id="file">
+        <input type="file" name="files" id="file" multiple>
     </div>
     <div>
         <input type="submit" value="제출">

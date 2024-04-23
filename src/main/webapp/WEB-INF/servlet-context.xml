@@ -36,4 +36,8 @@
     <!-- 만든 formatter가 더 있다면 <set>안에 쭉 넣어주면 됨 -->
     <mvc:annotation-driven conversion-service="conversionService" />
     <!-- 위에 열심히 만든거 어노테이션으로 사용하겠다는 의미 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10240000" />
+        <property name="defaultEncoding" value="utf=8" />
+    </bean>
 </beans>
