@@ -21,36 +21,74 @@
     <div class="container">
         <div class="card justify-content-md-center" style="width: 80%; margin: 0 auto";>
             <div class="card-header bg-primary text-white">게시글 상세</div>
-            <div class="card-body" style="padding: 30px">
-                <h5 class="card-title">제목 : ${bbsDTO.title}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">작성자 : ${bbsDTO.user_id}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">출력날짜 : ${bbsDTO.display_date}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">관심사항 :
-                    <c:if test="${empty bbsDTO.interest}">
-                        없음
-                    </c:if>
-                    <c:if test="${!empty bbsDTO.interest}">
-                        ${bbsDTO.interest}
-                    </c:if>
-                </h6>
-                <div class="card-text card mb-3 mt-3">
-                    <p class="card-text p-2" >
-                        ${bbsDTO.content}
-                    </p>
+                <div class="card-body" style="padding: 30px">
+                    <div>
+                        <h5 class="card-title">제목 : ${bbsDTO.title}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">작성자 : ${bbsDTO.user_id}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">출력날짜 : ${bbsDTO.display_date}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">관심사항 :
+                            <c:if test="${empty bbsDTO.interest}">
+                                없음
+                            </c:if>
+                            <c:if test="${!empty bbsDTO.interest}">
+                                ${bbsDTO.interest}
+                            </c:if>
+                        </h6>
+                        <div class="card-text card mb-3 mt-3">
+                            <p class="card-text p-2" >
+                                ${bbsDTO.content}
+                            </p>
+                        </div>
+                        <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                            <c:set var="linked_params">
+                                <c:forEach var="key" items="${paramValues.keySet()}" varStatus="status">
+                                    <c:if test="${key != 'idx'}"><c:if test="${status.first}">${key}=${param[key]}</c:if><c:if test="${! status.first}">&${key}=${param[key]}</c:if></c:if>
+                                </c:forEach>
+                            </c:set>
+                            <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list?${linked_params}'">목록</button>
+                            <c:if test="${sessionScope.user_id eq bbsDTO['user_id']}">
+                                <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
+                                <button class="btn btn-outline-primary" type="button" onclick="goDelete(${bbsDTO.idx}, ${bbsDTO['user_id']})">삭제</button>
+                            </c:if>
+                        </div>
+                    </div>
+                    <div class="card mt-3 bg-light p-2">
+                        <form class="row g-3" action="/bbsReply/regist" method="post">
+                            <input type="hidden" name="user_id" value="${sessionScope['user_id']}">
+                            <input type="hidden" name="bbs_idx" value="${bbsDTO.idx}">
+                            <div class="d-grid gap-2">
+                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="제목을 입력해주세요" name="title" maxlength="20" required <c:if test="${empty sessionScope['user_id']}"> disabled </c:if> >
+                                <textarea class="form-control" aria-label="With textarea" name="content" placeholder="내용을 입력해주세요" maxlength="100" required <c:if test="${empty sessionScope['user_id']}"> disabled </c:if> ></textarea>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button class="btn btn-primary" type="submit" <c:if test="${empty sessionScope['user_id']}"> disabled </c:if> >등록</button>
+                            </div>
+                        </form>
+                        <div class="list-group pt-3">
+                            <c:choose>
+                                <c:when test="${empty replyDTOList}">
+                                    <div class="p-2 list-group-item">
+                                        댓글이 없습니다.
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="replyDTO" items="${replyDTOList}" varStatus="status">
+                                        <div class="p-2 list-group-item <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> ">
+                                            <p>${replyDTO.content}</p>
+                                            <small class="text-mute">
+                                                제목 : ${replyDTO.title} |
+                                                작성자 : ${replyDTO['user_id']} |
+                                                등록일 : ${replyDTO['reg_date']}
+                                            </small>
+                                        </div>
+                                        <c:set var="i" value="${i-1}" />
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
-                    <c:set var="linked_params">
-                        <c:forEach var="key" items="${paramValues.keySet()}" varStatus="status">
-                            <c:if test="${key != 'idx'}"><c:if test="${status.first}">${key}=${param[key]}</c:if><c:if test="${! status.first}">&${key}=${param[key]}</c:if></c:if>
-                        </c:forEach>
-                    </c:set>
-                    <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/list?${linked_params}'">목록</button>
-                    <c:if test="${sessionScope.user_id eq bbsDTO['user_id']}">
-                        <button class="btn btn-outline-primary" type="button" onclick="location.href='/bbs/modify?idx=${bbsDTO.idx}'">수정</button>
-                        <button class="btn btn-outline-primary" type="button" onclick="goDelete(${bbsDTO.idx}, ${bbsDTO['user_id']})">삭제</button>
-                    </c:if>
-                </div>
-            </div>
             </div>
     </div>
 </div>

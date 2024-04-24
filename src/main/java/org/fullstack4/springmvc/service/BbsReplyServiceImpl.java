@@ -7,8 +7,10 @@ import org.fullstack4.springmvc.dto.BbsReplyDTO;
 import org.fullstack4.springmvc.mapper.BbsReplyMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -17,6 +19,7 @@ public class BbsReplyServiceImpl implements BbsReplyServiceIf {
     private final BbsReplyMapper bbsReplyMapper;
     private final ModelMapper modelMapper;
     @Override
+    @Transactional
     public int regist(BbsReplyDTO bbsReplyDTO) {
         log.info("-------------------");
         BbsReplyVO bbsReplyVO = modelMapper.map(bbsReplyDTO, BbsReplyVO.class);
@@ -43,8 +46,17 @@ public class BbsReplyServiceImpl implements BbsReplyServiceIf {
     }
 
     @Override
-    public List<BbsReplyDTO> list() {
-        return null;
+    public List<BbsReplyDTO> list(int bbs_idx) {
+        log.info("-------------------");
+        log.info("BbsReplyServiceImpl >> list()" );
+        log.info("BbsReplyServiceImpl >> bbs_idx : " + bbs_idx);
+        List<BbsReplyVO> voList = bbsReplyMapper.list(bbs_idx);
+        List<BbsReplyDTO> dtoList = null;
+        if (voList != null) {
+            dtoList = voList.stream().map(vo -> modelMapper.map(vo, BbsReplyDTO.class)).collect(Collectors.toList());
+        }
+        log.info("-------------------");
+        return dtoList;
     }
 
 

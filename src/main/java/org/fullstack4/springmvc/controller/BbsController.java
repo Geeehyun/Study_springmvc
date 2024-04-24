@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.fullstack4.springmvc.common.CommonUtil;
 import org.fullstack4.springmvc.dto.BbsDTO;
+import org.fullstack4.springmvc.dto.BbsReplyDTO;
 import org.fullstack4.springmvc.dto.PageRequestDTO;
 import org.fullstack4.springmvc.dto.PageResponseDTO;
+import org.fullstack4.springmvc.service.BbsReplyServiceIf;
 import org.fullstack4.springmvc.service.BbsServiceIf;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BbsController {
     private final BbsServiceIf bbsServiceIf;
+    private final BbsReplyServiceIf bbsReplyServiceIf;
 //    @GetMapping("/list")
 //    public void list(Model model) { // 초기 버전
 //        log.info("---------------------");
@@ -65,10 +67,12 @@ public class BbsController {
         if(bbsDTO == null) {
             throw new Exception("없는 게시글 입니다.");
         }
+        List<BbsReplyDTO> replyDTOList = bbsReplyServiceIf.list(idx);
         bbsDTO.setContent(bbsDTO.getContent().replace("\r\n", "<br>"));
-//        log.info("bbsDTO : " + bbsDTO);
+        log.info("replyDTOList : " + replyDTOList);
         log.info("---------------------");
         model.addAttribute("bbsDTO", bbsDTO);
+        model.addAttribute("replyDTOList", replyDTOList);
     }
     @GetMapping("/regist")
     public void registGet() {

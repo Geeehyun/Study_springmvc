@@ -3,10 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://mybatis.org/schema/mybatis-spring
+                           http://mybatis.org/schema/mybatis-spring.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
 <!--       1. `root-context.xml` 처럼 xml을 이용해서 의존성 주입하는 방법 -->
 <!--       <bean class="org.fullstack4.springmvc.sample.SampleDAO" />-->
 <!--       <bean class="org.fullstack4.springmvc.sample.SampleService" />-->
@@ -26,6 +31,7 @@
                      </props>
               </property>
        </bean>
+
        <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
               <constructor-arg ref="hikariConfig" />
        </bean>
@@ -36,6 +42,14 @@
               <property name="dataSource" ref="dataSource" />
               <property name="mapperLocations" value="classpath:/mappers/**/*.xml" />
        </bean>
+
+       <!-- 트랜잭션 관리 객체 -->
+       <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+              <property name="dataSource" ref="dataSource" />
+       </bean>
+       <!-- @Transactional 어노테이션 처리 -->
+       <tx:annotation-driven transaction-manager="transactionManager" />
+
        <!-- 위 Bean 설정에서  mapperLocations으로 Mppper.xml 설정 함. -->
        <mybatis:scan base-package="org.fullstack4.springmvc.mapper"/>
        <!-- MyBatis Bean 설정 -->

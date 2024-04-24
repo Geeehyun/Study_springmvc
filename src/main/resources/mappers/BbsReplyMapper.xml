@@ -11,6 +11,6 @@
         WHERE idx = #{bbs_idx}
     </update>
     <select id="list" resultType="org.fullstack4.springmvc.domain.BbsReplyVO">
-        SELECT * FROM tbl_bbs_reply WHERE bbs_idx = #{bbs_idx}
+        SELECT * FROM tbl_bbs_reply WHERE bbs_idx = #{bbs_idx} ORDER BY reg_date DESC
     </select>
 </mapper>

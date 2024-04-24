@@ -8,6 +8,6 @@ import java.util.List;
 public interface BbsReplyServiceIf {
     int regist(BbsReplyDTO bbsReplyDTO);
     int update_replyCnt(int bbs_idx);
-    List<BbsReplyDTO> list();
+    List<BbsReplyDTO> list(int bbs_idx);
 }
 
