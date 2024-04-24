@@ -72,7 +72,7 @@
                             <c:forEach var="bbsDTO" items="${responseDTO.dtoList}" varStatus="status">
                                 <div class="p-2 list-group-item list-group-item-action <c:if test="${status.count % 2 == 0}">list-group-item-secondary</c:if> " onclick="location.href = '/bbs/view${responseDTO['linked_params']}&page=${param.page}&idx=${bbsDTO.idx}'">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6>${bbsDTO.title}</h6>
+                                        <h6>${bbsDTO.title} ( ${bbsDTO.replyCnt} )</h6>
                                     </div>
                                     <small class="text-mute">
                                         NO :  ${i} |

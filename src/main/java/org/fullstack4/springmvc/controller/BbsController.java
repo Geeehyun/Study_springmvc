@@ -47,7 +47,7 @@ public class BbsController {
                      Model model) {
         log.info("---------------------");
         log.info("BbsController => list() Start");
-        log.info("BbsController >> pageRequestDTO" + pageRequestDTO);
+//        log.info("BbsController >> pageRequestDTO" + pageRequestDTO);
         if(bindingResult.hasErrors()) {
             log.info("BbsController >> list Error");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
